@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ user.username }}'s profile</title>
+</head>
+<body>
+
+<h2>Current album: {{ weekly_pick.title }} by {{ weekly_pick.artist }}</h2>
+    {% if reviewed %}
+        Album reviewed!
+    {% else %}
+        <h3>Review this album</h3>
+            <form action="{{ url_for('add_review') }}" method="post">
+            <label for="review_text">Review:</label><br>
+            <textarea rows="5" cols="50" id="review_text" name="review_text"></textarea><br>
+            <label for="rating">Rating (1-10):</label><br>
+            <input type="number" id="rating" name="rating" min="1" max="10" step="1" required><br><br>
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <input type="hidden" name="album_id" value="{{ weekly_pick.id }}">
+            <input type="hidden" name="username" value="{{ user.username }}">
+            <button type="submit">Submit review</button>
+        </form>
+    {% endif %}
+
+<h2>Suggest an album</h2>
+    <form action="{{ url_for('add_new_album') }}" method="post">
+        <label for="artist">Artist:</label><br>
+        <input type="text" id="artist" name="artist" required><br><br>
+        <label for="title">Album title:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="year">Release year:</label><br>
+        <input type="number" id="year" name="year" min="1900" max="2030" step="1"><br><br>
+        <input type="hidden" name="user_id" value="{{ user.username }}">
+        <button type="submit">Submit album</button>
+    </form>
+<h2>Reviews</h2>
+    {% for review in user.reviews %}
+        <li><a href="{{ url_for('show_album_details', album_id=review.album_id) }}">{{ review.album.title }} by {{ review.album.artist }} </a></li>
+        Rating : {{ review.rating }}<br>
+        {{ review.review_text }}<br><br>
+    {% endfor %}
+    <br>
+    <a href="{{ url_for('home') }}">Back to home</a>
+</body>
+</html>

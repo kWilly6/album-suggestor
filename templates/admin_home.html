@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Album-a-Week Club: ADMIN</title>
+</head>
+<body>
+    <h1>Album of the Week</h1>
+    {% if weekly_pick %}
+        <h2>{{ weekly_pick.title }} by {{ weekly_pick.artist }}</h2>
+    {% else %}
+        <p>No album picked yet.</p>
+    {% endif %}
+
+    <form action="{{ url_for('pick_new_album') }}" method="post">
+        <button type="submit">Pick a New Album Now</button>
+    </form>
+
+    <hr>
+
+    <h2>Add a New User</h2>
+    <form action="{{ url_for('add_new_user') }}" method="post">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <button type="submit">Add user</button>
+    </form>
+
+    <h2>Reviewed Albums</h2></h2>
+    <ul>
+    {% for album in albums %}
+        {% if album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h2>Unreviewed Albums</h2></h2>
+    <ul>
+    {% for album in albums %}
+        {% if not album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+</body>
+</html>

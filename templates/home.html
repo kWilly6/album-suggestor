@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WAD music room</title>
+</head>
+<body>
+    <h1>Current album:</h1>
+    {% if weekly_pick %}
+        <h2><a href="{{ url_for('show_album_details', album_id=weekly_pick.id) }}">{{ weekly_pick.title }} by {{ weekly_pick.artist }}</a></h2>
+    {% else %}
+        <p>No album picked yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>User list</h2>
+    <ul>
+        {% for user in users %}
+            <li><a href="{{ url_for('show_user_profile', username=user.username) }}">{{ user.username }}</a></li>
+        {% endfor %}
+        <li><a href="{{ url_for('new_user_page') }}"> new user? </a></li>
+    </ul>
+
+    <h2>Previous albums</h2></h2>
+    <ul>
+    {% for album in albums %}
+        {% if album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <h2>Unreviewed albums</h2></h2>
+    <ul>
+    {% for album in albums %}
+        {% if not album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+</body>
+</html>

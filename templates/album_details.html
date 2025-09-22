@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ album.title }}</title>
+</head>
+<body>
+
+    {% if album %}
+    <h1>{{ album.title }}</h1>
+        <h2>{{ album.artist }}</h2>
+        <p>Year: {{ album.year }}</p>
+        <p>Suggested by: <a href="{{ url_for('show_user_profile', username=album.suggestor) }}">{{ album.suggestor }}</a></p>
+        {% if album.reviews %}
+            <p>Average rating: {{ average_rating | round(2)}}</p>
+        {% endif %}
+        <a href="{{ url_for('home') }}">Back to home</a>
+    <h1>Reviews:</h1>
+        {% for review in album.reviews %}
+            User: <a href="{{ url_for('show_user_profile', username=review.user.username) }}">{{ review.user.username }}</a><br>
+            Rating : {{ review.rating }}<br>
+            {{ review.review_text }}<br><br>
+        {% endfor %}
+    <br>
+    {% else %}
+        <p>Album not found.</p>
+    {% endif %}
+
+</body>
+</html>
