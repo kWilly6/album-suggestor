@@ -64,15 +64,16 @@ def get_weekly_album():
             weekly_pick = random.choice(all_albums)
             last_updated = datetime.now()
 
-    return weekly_pick
+    return weekly_pick, last_updated
 
 @app.route("/")
 def home():
     all_albums = Album.query.all()
     all_users = User.query.all()
-    album_of_the_week = get_weekly_album()
-
-    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users)
+    album_of_the_week, time = get_weekly_album()
+    next_update = time + timedelta(weeks=1)
+    next_update = next_update.strftime("%A, %B %d at %I:%M %p")
+    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users, next_update=next_update)
 
 
 @app.route("/admin")
