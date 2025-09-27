@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>WAD Music Room</title>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-title">
+            WAD Tunes
+        </div>
+        <div class="header-links">
+            <ul>
+                <li><a href="#">Current Album</a></li>
+                <li><a href="#">Past Albums</a></li>
+                <li><button type="user">USER</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="countdown">
+
+        </div>
+
+        <div class="body">
+            <div class="current-album-info">
+                <div class="album-links-title-artist">
+
+                </div>
+                <div class=album-art-info>
+
+                </div>
+
+            </div>
+            <div class="review-input">
+
+            </div>
+            <div class="album-reviews">
+
+            </div>
+        </div>
+
+        <h1>Current album:</h1>
+        {% if weekly_pick %}
+        <h2><a href="{{ url_for('show_album_details', album_id=weekly_pick.id) }}">{{ weekly_pick.title }} by {{
+                weekly_pick.artist }}</a></h2>
+        {% else %}
+        <p>No album picked yet.</p>
+        {% endif %}
+
+        <hr>
+
+        <h2>User list</h2>
+        <ul>
+            {% for user in users %}
+            <li><a href="{{ url_for('show_user_profile', username=user.username) }}">{{ user.username }}</a></li>
+            {% endfor %}
+            <li><a href="{{ url_for('new_user_page') }}"> new user? </a></li>
+        </ul>
+
+        <h2>Previous albums</h2>
+        </h2>
+        <ul>
+            {% for album in albums %}
+            {% if album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }}
+                </a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
+        <h2>Unreviewed albums</h2>
+        </h2>
+        <ul>
+            {% for album in albums %}
+            {% if not album.reviewed %}
+            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }}
+                </a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+
+</html>

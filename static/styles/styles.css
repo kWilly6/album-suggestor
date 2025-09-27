@@ -1,0 +1,408 @@
+:root {
+    --bg: #0d0d0f;
+    --panel: #101114;
+    --line: #e6e6e6;
+    --muted: #a9a9b2;
+    --text: #ffffff;
+    --item-bg: #25262b;
+    --pill-active: #b1b2be;
+    --pill-active-text: #0d0d0f;
+    --accent: #ffffff;
+    --radius: 10px;
+    --radius-sm: 8px;
+    --theme-accent: #b1b2be;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+        Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+    line-height: 1.35;
+}
+
+.page {
+    min-height: 100%;
+    padding: 24px 16px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    /* gap: 16px; */
+    max-width: 100%;
+    margin: 0 auto 20px auto;
+    padding: 20px 0px;
+    border-bottom: 2px solid var(--line);
+}
+
+.logo {
+    /* border: 2px solid var(--line);
+    border-radius: var(--radius-sm); */
+    padding: 8px 12px;
+    font-weight: 600;
+    width: max-content;
+}
+
+.header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+.header-links ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pill,
+.header-links a,
+.header-links button {
+    display: inline-block;
+    color: var(--text);
+    background: var(--item-bg);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-decoration: none;
+    font: inherit;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.pill.active {
+    background: var(--theme-accent);
+    color: var(--pill-active-text);
+}
+
+/* Content shell */
+.content {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 18px;
+}
+
+/* Countdown bar */
+.countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border: 4px solid var(--line);
+    border-radius: 10px;
+    padding: 8px 20px;
+    width: fit-content;
+    margin: 6px auto 22px auto;
+    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas,
+        monospace;
+}
+
+.countdown-label {
+    color: var(--text);
+    text-shadow: 2px 2px 4px var(--theme-accent);
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+.countdown-time {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Main body layout */
+.body {
+    display: flex;
+    gap: 28px;
+}
+
+/* Left column & right column flexed proportionally */
+.body>*:first-child {
+    flex: 1.1;
+    /* left: 1.1fr */
+}
+
+.body>*:last-child {
+    flex: 0.9;
+    /* right: 0.9fr */
+}
+
+/* Left column */
+.current-album-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.album-links-title-artist {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.song-link-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.song-link-web,
+.song-link-app {
+    width: fit-content;
+    aspect-ratio: 1 / 1;
+    border: 2px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    border-radius: 50%;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.title-artist .album-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.title-artist .album-artist {
+    color: var(--muted);
+}
+
+/* Art + meta */
+.album-art-info {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.album-art {
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+}
+
+.album-meta .submitted {
+    margin-bottom: 8px;
+    color: var(--muted);
+}
+
+.meta-list {
+    list-style: none;
+    padding: 10px 0px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.meta-list li {
+    display: flex;
+    justify-content: space-between;
+    border-left: 0;
+}
+
+.meta-list li span {
+    color: var(--muted);
+}
+
+/* Review input (right column) */
+.review-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.rating-number {
+    background: var(--item-bg);
+    color: var(--text);
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    width: 3ch;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 6px;
+
+    /* Remove default browser styling */
+    -moz-appearance: textfield;
+    /* Firefox */
+}
+
+.rating-number::-webkit-outer-spin-button,
+.rating-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.rating-number:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.stars {
+    display: flex;
+    gap: 6px;
+    font-size: 0;
+    /* prevent inline gap */
+}
+
+.stars {
+    display: flex;
+    gap: 6px;
+}
+
+.star {
+    width: 3rem;
+    /* size */
+    height: 3rem;
+    fill: var(--item-bg);
+    /* empty color */
+}
+
+/* Fully filled star */
+.star.filled {
+    fill: var(--theme-accent);
+}
+
+/* Partially filled star */
+.star.partial {
+    fill: url(#starGradient);
+}
+
+.notes {
+    width: 100%;
+    min-height: 140px;
+    resize: vertical;
+    border: 2px solid var(--line);
+    border-radius: 14px;
+    background: transparent;
+    color: var(--text);
+    padding: 12px;
+    font: inherit;
+}
+
+.submit {
+    width: fit-content;
+    align-self: center;
+    border: 2px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Reviews list */
+.album-reviews {
+    grid-column: 1 / -1;
+    border-top: 2px solid var(--line);
+    padding-top: 18px;
+}
+
+.album-reviews h2 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: var(--muted);
+}
+
+.review-card {
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: grid;
+    gap: 6px;
+    margin-bottom: 10px;
+    background: transparent;
+}
+
+.review-rating {
+    letter-spacing: 2px;
+    color: var(--text);
+    font-family: "Courier New", ui-monospace, monospace;
+}
+
+/* Responsive: mobile stack (like the right mock) */
+@media (max-width: 900px) {
+    .header {
+        grid-template-columns: auto 1fr auto;
+    }
+
+    .header-title {
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .body {
+        grid-template-columns: 1fr;
+    }
+
+    .album-art-info {
+        grid-template-columns: 1fr;
+    }
+
+    .album-art {
+        max-width: 420px;
+        margin-inline: auto;
+    }
+
+    .countdown {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .header-links ul {
+        gap: 8px;
+    }
+
+    .pill,
+    .header-links a,
+    .header-links button {
+        padding: 6px 10px;
+    }
+}

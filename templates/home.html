@@ -1,43 +1,123 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-    <title>WAD music room</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>WAD Tunes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
+    <script src="{{ url_for('static', filename='scripts/script.js') }}" defer></script>
 </head>
+
+<svg width=" 0" height="0" style="position:absolute">
+    <defs>
+        <linearGradient id="starGradient" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="var(--fill,0)" stop-color="var(--theme-accent)" />
+            <stop offset="var(--fill,0)" stop-color="var(--item-bg)" />
+        </linearGradient>
+    </defs>
+</svg>
+
 <body>
-    <h1>Current album:</h1>
-    {% if weekly_pick %}
-        <h2><a href="{{ url_for('show_album_details', album_id=weekly_pick.id) }}">{{ weekly_pick.title }} by {{ weekly_pick.artist }}</a></h2>
-    {% else %}
-        <p>No album picked yet.</p>
-    {% endif %}
+    <div class="page">
+        <div class="header">
+            <div class="logo">Logo</div>
 
-    <hr>
+            <div class="header-title">WAD Tunes</div>
 
-    <h2>User list</h2>
-    <ul>
-        {% for user in users %}
-            <li><a href="{{ url_for('show_user_profile', username=user.username) }}">{{ user.username }}</a></li>
-        {% endfor %}
-        <li><a href="{{ url_for('new_user_page') }}"> new user? </a></li>
-    </ul>
+            <nav class="header-links">
+                <ul>
+                    <li><a class="pill active" href="#">Current Album</a></li>
+                    <li><a class="pill" href="#">All Albums</a></li>
+                    <li>
+                        <button class="pill" type="button" aria-label="User">USER</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-    <h2>Previous albums</h2></h2>
-    <ul>
-    {% for album in albums %}
-        {% if album.reviewed %}
-            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+        <div class="content">
+            <div class="countdown">
+                <span class="countdown-label">NEW ALBUM IN:</span>
+                <span class="countdown-time">16:33:45</span>
+            </div>
 
-    <h2>Unreviewed albums</h2></h2>
-    <ul>
-    {% for album in albums %}
-        {% if not album.reviewed %}
-            <li><a href="{{ url_for('show_album_details', album_id=album.id) }}">{{ album.title }} by {{ album.artist }} </a></li>
-        {% endif %}
-    {% endfor %}
-    </ul>
+            <div class="body">
+                <div class="current-album-info">
+                    <div class="album-links-title-artist">
+                        <div class="song-link-row">
+                            <button class="song-link-web" type="button">WEB</button>
+                            <button class="song-link-app" type="button">APP</button>
+                        </div>
+                        <div class="title-artist">
+                            <div class="album-title">{{ weekly_pick.title }}</div>
+                            <div class="album-artist">{{ weekly_pick.artist }}</div>
+                        </div>
+                    </div>
 
+                    <div class="album-art-info">
+                        <div class="album-art" aria-label="Album Art">Album Art</div>
+
+                        <div class="album-meta">
+                            <ul class="meta-list">
+                                <li><strong>Year</strong></li>
+                                <li><strong># songs</strong></li>
+                                <li><strong>HH:MM</strong></li>
+                                <li><strong>Genre1, Genre2</strong></li>
+                                <li><strong>Submitted By</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-input">
+                    <form class="review-form">
+                        <div class="rating">
+                            <input type="number" id="rating-input" class="rating-number" min="0" max="10" step="0.1"
+                                placeholder="#" />
+
+                            <!-- 10 star "slots" -->
+                            <div class="stars" aria-hidden="true">
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                                <svg class="star" viewBox="0 0 24 24">
+                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                                </svg>
+                            </div>
+                        </div>
+
+                        <textarea id="notes" class="notes" rows="6"></textarea>
+                        <button class="submit" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
