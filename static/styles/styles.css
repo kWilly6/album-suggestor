@@ -236,7 +236,8 @@ body {
 }
 
 /* Review input (right column) */
-.review-input {
+.review-input,
+.reviews-display {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -248,14 +249,16 @@ body {
     gap: 14px;
 }
 
-.rating {
+.rating,
+.average-rating {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 14px;
 }
 
-.rating-number {
+.rating-number,
+.average-rating-number {
     background: var(--item-bg);
     color: var(--text);
     font-size: 2rem;
@@ -313,7 +316,7 @@ body {
     fill: url(#starGradient);
 }
 
-.notes {
+.review_text {
     width: 100%;
     min-height: 140px;
     resize: vertical;
