@@ -269,9 +269,9 @@ body {
     border-radius: 8px;
     padding: 4px 6px;
 
-    /* Remove default browser styling */
+    appearance: textfield;
     -moz-appearance: textfield;
-    /* Firefox */
+    -webkit-appearance: textfield;
 }
 
 .rating-number::-webkit-outer-spin-button,

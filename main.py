@@ -131,8 +131,12 @@ def add_review():
         username = request.form["username"]
         album_id = request.form["album_id"]
         new_review = Review(rating=rating,review_text=review_text,user_id=user_id,album_id=album_id)
-        db.session.add(new_review)
-        db.session.commit()
+        try:
+            db.session.add(new_review)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print("ERROR:", e)
 
         return redirect(url_for("home"))
 
