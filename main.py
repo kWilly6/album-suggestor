@@ -75,7 +75,7 @@ def home():
     ratings = [review.rating for review in album_of_the_week.reviews]
     average_rating = np.average(ratings)
 
-    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users)
+    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users, average=average_rating)
 
 
 @app.route("/admin")
@@ -134,7 +134,7 @@ def add_review():
         db.session.add(new_review)
         db.session.commit()
 
-        return redirect(url_for("show_user_profile", username=username))
+        return redirect(url_for("home"))
 
 @app.route("/u/<string:username>")
 def show_user_profile(username):
