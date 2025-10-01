@@ -337,33 +337,43 @@ body {
     cursor: pointer;
 }
 
-/* Reviews list */
-.album-reviews {
-    grid-column: 1 / -1;
-    border-top: 2px solid var(--line);
-    padding-top: 18px;
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin: 12px 0;
+    background-color: transparent;
+    color: #fff;
 }
 
-.album-reviews h2 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    color: var(--muted);
-}
-
-.review-card {
-    border: 2px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 12px;
-    display: grid;
-    gap: 6px;
-    margin-bottom: 10px;
-    background: transparent;
+.review-info {
+    flex: 0 0 80px;
+    /* fixed width for rating/name */
+    text-align: left;
 }
 
 .review-rating {
-    letter-spacing: 2px;
-    color: var(--text);
-    font-family: "Courier New", ui-monospace, monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.review-user {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.review-text {
+    flex: 1;
+    margin-left: 15px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    background-color: #111;
 }
 
 /* Responsive: mobile stack (like the right mock) */

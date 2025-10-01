@@ -72,6 +72,9 @@ def home():
     all_users = User.query.all()
     album_of_the_week = get_weekly_album()
 
+    ratings = [review.rating for review in album_of_the_week.reviews]
+    average_rating = np.average(ratings)
+
     return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users)
 
 
