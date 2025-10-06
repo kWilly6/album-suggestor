@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 import random
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 app = Flask(__name__)
 
@@ -53,8 +53,9 @@ last_updated = None
 def get_weekly_album():
     global weekly_pick, last_updated
 
+    now = datetime.now(timezone.utc)
     # Check if a week has passed since the last pick
-    if weekly_pick is None or datetime.now() > last_updated + timedelta(days=1):
+    if weekly_pick is None or now > last_updated + timedelta(weeks=1):
         if weekly_pick is not None:
             weekly_pick = db.session.merge(weekly_pick)  # add the weekly pick back to the db session
             weekly_pick.reviewed = True
@@ -62,17 +63,17 @@ def get_weekly_album():
         all_albums = Album.query.filter_by(reviewed=False).all()
         if all_albums:
             weekly_pick = random.choice(all_albums)
-            last_updated = datetime.now()
-
-    return weekly_pick, last_updated
+            last_sunday = now-timedelta(now.weekday() % 7) #calculate date of most recent sunday (monday (weekday=0) UTC)
+            last_updated = last_sunday.replace(hour=4,minute=59,second=0,microsecond=0) #11:59 central in UTC
+    next_update = last_updated + timedelta(weeks=1) - timedelta(hours=5)
+    return weekly_pick, next_update
 
 @app.route("/")
 def home():
     all_albums = Album.query.all()
     all_users = User.query.all()
-    album_of_the_week, time = get_weekly_album()
-    next_update = time + timedelta(weeks=1)
-    next_update = next_update.strftime("%A, %B %d at %I:%M %p")
+    album_of_the_week, next_update = get_weekly_album()
+    next_update = next_update.strftime("%A, %B %d at %I:%M %p CDT")
     return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users, next_update=next_update)
 
 
