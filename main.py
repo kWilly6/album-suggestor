@@ -173,7 +173,9 @@ def pick_new_album():
     if albums:
         new_pick = random.choice(albums)
         weekly_pick = new_pick
-        last_updated = datetime.now(timezone.utc)
+        now= datetime.now(timezone.utc)
+        last_sunday = now-timedelta(now.weekday() % 7) #calculate date of most recent sunday (monday (weekday=0) UTC)
+        last_updated = last_sunday.replace(hour=4,minute=59,second=0,microsecond=0) #11:59 central in UTC
 
     # Redirect the user back to the home page
     return redirect(url_for("admin"))
