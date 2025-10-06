@@ -80,7 +80,7 @@ def home():
 @app.route("/admin")
 def admin():
     all_albums = Album.query.all()
-    album_of_the_week = get_weekly_album()
+    album_of_the_week,next_update = get_weekly_album()
 
     return render_template("admin_home.html", albums=all_albums, weekly_pick=album_of_the_week)
 
@@ -173,10 +173,19 @@ def pick_new_album():
     if albums:
         new_pick = random.choice(albums)
         weekly_pick = new_pick
-        last_updated = datetime.now()
+        last_updated = datetime.now(timezone.utc)
 
     # Redirect the user back to the home page
-    return redirect(url_for("home"))
+    return redirect(url_for("admin"))
+
+#RESETS ALL ALBUMS TO UNREVIEWED, ADMIN ONLY POWER
+@app.route("/reset_albums", methods=["POST"])
+def reset_albums():
+    all_albums = Album.query.all()
+    for album in all_albums:
+        album.reviewed=False
+        db.session.commit()
+    return redirect(url_for("admin"))
 
 if __name__ == "__main__":
     with app.app_context():
