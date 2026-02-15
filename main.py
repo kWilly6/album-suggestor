@@ -1,10 +1,14 @@
 # app.py
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 import random
 import numpy as np
 from datetime import datetime, timedelta
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -12,6 +16,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+load_dotenv()
+
+auth_manager = SpotifyClientCredentials()
+spotifyInst = spotipy.Spotify(auth_manager=auth_manager)
 
 # Define the Album database model
 class Album(db.Model):
@@ -125,7 +133,7 @@ def add_new_user():
 @app.route("/add_review", methods=["POST"])
 def add_review():
     if request.method == "POST":
-        rating = request.form["rating"]
+        rating = float(request.form["rating"])
         review_text = request.form["review_text"]
         user_id = request.form["user_id"]
         username = request.form["username"]
@@ -182,6 +190,32 @@ def pick_new_album():
 
     # Redirect the user back to the home page
     return redirect(url_for("home"))
+
+@app.route('/get_album_data', methods=['POST'])
+def get_album_data():
+    album_url = request.json.get('url')
+    try:
+        album_id = album_url.split("album/")[1].split("?")[0]
+        album = spotifyInst.album(album_id)
+    except Exception as e:
+        return {"error": "Invalid Spotify Link"}, 400
+    
+    total_ms = sum(track['duration_ms'] for track in album['tracks']['items'])
+    total_seconds = int(total_ms / 1000)
+    minutes, seconds = divmod(total_seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    duration_str = f"{hours}h {minutes}m" if hours > 0 else f"{minutes}m {seconds}s"
+
+    return {
+        "title": album['name'],
+        "artist": album['artists'][0]['name'],
+        "cover_art": album['images'][0]['url'], # Highest resolution
+        "year": album['release_date'][:4],
+        "num_songs": album['total_tracks'],
+        "duration": duration_str,
+    }
+
 
 if __name__ == "__main__":
     with app.app_context():

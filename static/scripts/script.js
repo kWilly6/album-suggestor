@@ -2,6 +2,7 @@ const ratingInput = document.getElementById("rating-input");
 const stars = document.querySelectorAll(".stars .star");
 const reviewSubmit = document.getElementById("submit-button");
 const userButton = document.getElementById("user-button");
+const spotifySubmit = document.getElementById("spotify-submit")
 
 // get gradient stops
 const starGradFill = document.querySelector("#starGradient");
@@ -50,3 +51,31 @@ userButton.addEventListener("click", resetReviewInputPanel);
 
 // initialize
 updateStars(ratingInput.value);
+
+async function fetchSpotifyData() {
+    const urlInput = document.getElementById('spotify-url').value;
+
+    const response = await fetch('/get_album_data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: urlInput })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        updateUI(data);
+    } else {
+        alert("Could not find album data.");
+    }
+}
+
+function updateUI(data) {
+    document.getElementById('album-title').innerText = data.title;
+    document.getElementById('album-artist').innerText = data.artist;
+    document.getElementById('album-cover').src = data.cover_art;
+    document.getElementById('album-year').innerText = data.year;
+    document.getElementById('album-num-songs').innerText = data.num_songs;
+    document.getElementById('album-duration').innerText = data.duration;
+}
+
+spotifySubmit.addEventListener("click", fetchSpotifyData)

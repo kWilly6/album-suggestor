@@ -50,20 +50,26 @@
                             <button class="song-link-app" type="button">APP</button>
                         </div>
                         <div class="title-artist">
-                            <div class="album-title">{{ weekly_pick.title }}</div>
-                            <div class="album-artist">{{ weekly_pick.artist }}</div>
+                            <div id="album-title" class="album-title">{{ weekly_pick.title }}</div>
+                            <div id="album-artist" class="album-artist">{{ weekly_pick.artist }}</div>
                         </div>
                     </div>
 
                     <div class="album-art-info">
-                        <div class="album-art" aria-label="Album Art">Album Art</div>
+                        <!-- <div id="album-cover" class="album-art" aria-label="Album Art">Album Art</div> -->
+                        <img id="album-cover" class="album-art" src="{{ album_cover_art }}" alt="Album Cover Art">
 
                         <div class="album-meta">
                             <ul class="meta-list">
-                                <li><strong>Year</strong></li>
-                                <li><strong># songs</strong></li>
-                                <li><strong>HH:MM</strong></li>
-                                <li><strong>Genre1, Genre2</strong></li>
+                                <li>
+                                    <div id="album-year">Year</div>
+                                </li>
+                                <li>
+                                    <div id="album-num-songs"># songs</div>
+                                </li>
+                                <li>
+                                    <div id="album-duration">HH:MM</div>
+                                </li>
                                 <li><strong>Submitted By</strong></li>
                             </ul>
                         </div>
@@ -170,6 +176,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="spotify-test">
+                <textarea id="spotify-url" class="spotify-input" rows="1"></textarea>
+                <button id="spotify-submit" class="spotify-submit" type="button">Submit</button>
             </div>
         </div>
     </div>
