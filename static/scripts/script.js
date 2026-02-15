@@ -1,9 +1,11 @@
-const input = document.getElementById("rating-input");
+const ratingInput = document.getElementById("rating-input");
 const stars = document.querySelectorAll(".stars .star");
+const reviewSubmit = document.getElementById("submit-button");
+const userButton = document.getElementById("user-button");
 
 // get gradient stops
-const grad = document.querySelector("#starGradient");
-const stops = grad.querySelectorAll("stop");
+const starGradFill = document.querySelector("#starGradient");
+const stops = starGradFill.querySelectorAll("stop");
 
 function updateStars(value) {
     const rating = Math.max(0, Math.min(10, parseFloat(value) || 0));
@@ -28,7 +30,23 @@ function updateStars(value) {
 }
 
 // hook to input
-input.addEventListener("input", (e) => updateStars(e.target.value));
+ratingInput.addEventListener("input", (e) => updateStars(e.target.value));
+
+function submitRating() {
+    //check user
+    //logic to add rating to database
+    document.querySelector('.review-input').classList.add('hidden');
+    document.querySelector('.reviews-display').classList.remove('hidden');
+}
+
+reviewSubmit.addEventListener("click", submitRating);
+
+function resetReviewInputPanel() {
+    document.querySelector('.reviews-display').classList.add('hidden');
+    document.querySelector('.review-input').classList.remove('hidden');
+}
+
+userButton.addEventListener("click", resetReviewInputPanel);
 
 // initialize
-updateStars(input.value);
+updateStars(ratingInput.value);
