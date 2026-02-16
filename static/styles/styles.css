@@ -47,12 +47,11 @@ body {
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
         Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
     line-height: 1.35;
-}
-
-.page {
     min-height: 100%;
     padding: 24px 16px;
 }
+
+/* .page {} */
 
 /* Header */
 .header {
@@ -201,12 +200,20 @@ body {
     margin-top: 2px;
 }
 
-.song-link-web,
-.song-link-app {
-    width: fit-content;
+.song-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url('../images/spotify_back.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    width: 75px;
     aspect-ratio: 1 / 1;
     border: 2px solid var(--line);
-    background: transparent;
+    /* background: transparent; */
     color: var(--text);
     border-radius: 50%;
     padding: 10px 14px;

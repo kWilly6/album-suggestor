@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>WAD Tunes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
+    <script src="{{ url_for('static', filename='scripts/script.js') }}" defer></script>
+</head>
+
+<svg width=" 0" height="0" style="position:absolute">
+    <defs>
+        <linearGradient id="starGradient" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="var(--fill,0)" stop-color="var(--theme-accent)" />
+            <stop offset="var(--fill,0)" stop-color="var(--item-bg)" />
+        </linearGradient>
+    </defs>
+</svg>
+
+<body>
+    <div class="header">
+        <nav class="header-links">
+            <ul>
+                <li><a class="nav-link active" href="#">Current Album</a></li>
+                <li><a class="nav-link" href=".all_albums.html">All Albums</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-title">WAD Tunes</div>
+
+        <div class="user-button-container">
+            <button class="nav-button" id="user-button" type="button" aria-label="User">USER</button>
+        </div>
+
+    </div>
+
+
+    {% block content %}
+
+    {% endblock %}
+
+
+</body>
+
+</html>

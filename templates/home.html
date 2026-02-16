@@ -1,188 +1,154 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>WAD Tunes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}" />
-    <script src="{{ url_for('static', filename='scripts/script.js') }}" defer></script>
-</head>
+{% block content %}
 
-<svg width=" 0" height="0" style="position:absolute">
-    <defs>
-        <linearGradient id="starGradient" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="var(--fill,0)" stop-color="var(--theme-accent)" />
-            <stop offset="var(--fill,0)" stop-color="var(--item-bg)" />
-        </linearGradient>
-    </defs>
-</svg>
+<div class="content">
+    <div class="countdown">
+        <span class="countdown-label">NEW ALBUM IN:</span>
+        <span class="countdown-time">16:33:45</span>
+    </div>
 
-<body>
-    <div class="page">
-        <div class="header">
-            <nav class="header-links">
-                <ul>
-                    <li><a class="nav-link active" href="#">Current Album</a></li>
-                    <li><a class="nav-link" href="#">All Albums</a></li>
-                </ul>
-            </nav>
-
-            <div class="header-title">WAD Tunes</div>
-
-            <div class="user-button-container">
-                <button class="nav-button" id="user-button" type="button" aria-label="User">USER</button>
+    <div class="body">
+        <div class="current-album-info">
+            <div class="album-links-title-artist">
+                <div class="song-link-row">
+                    <a class="song-link" href="https://open.spotify.com/album/{{ weekly_pick.url_id}}"
+                        target="_blank"></a>
+                </div>
+                <div class="title-artist">
+                    <div id="album-title" class="album-title">{{ weekly_pick.title }}</div>
+                    <div id="album-artist" class="album-artist">{{ weekly_pick.artist }}</div>
+                </div>
             </div>
 
+            <div class="album-art-info">
+                <!-- <div id="album-cover" class="album-art" aria-label="Album Art">Album Art</div> -->
+                <img id="album-cover" class="album-art" src="{{ weekly_pick.cover_art }}"" alt=" Album Cover Art">
+
+                <div class="album-meta">
+                    <ul class="meta-list">
+                        <li>
+                            <div id="album-year">{{ weekly_pick.year }}</div>
+                        </li>
+                        <li>
+                            <div id="album-num-songs">{{ weekly_pick.num_songs }} tracks</div>
+                        </li>
+                        <li>
+                            <div id="album-duration">{{weekly_pick.duration}}</div>
+                        </li>
+                        <li>
+                            <div id="album-suggestor">{{weekly_pick.suggestor}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
+        <div class="reviews ">
+            <div class="review-input">
+                <form class="review-form" action="{{ url_for('add_review') }}" method="post">
+                    <div class="rating">
+                        <input type="number" id="rating-input" class="rating-number" name="rating" min="0" max="10"
+                            step="0.1" placeholder="#" />
 
-        <div class="content">
-            <div class="countdown">
-                <span class="countdown-label">NEW ALBUM IN:</span>
-                <span class="countdown-time">16:33:45</span>
-            </div>
-
-            <div class="body">
-                <div class="current-album-info">
-                    <div class="album-links-title-artist">
-                        <div class="song-link-row">
-                            <button class="song-link-web" type="button">WEB</button>
-                            <button class="song-link-app" type="button">APP</button>
+                        <!-- 10 star "slots" -->
+                        <div class="stars" aria-hidden="true">
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
+                            <svg class="star" viewBox="0 0 24 24">
+                                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                            </svg>
                         </div>
-                        <div class="title-artist">
-                            <div id="album-title" class="album-title">{{ weekly_pick.title }}</div>
-                            <div id="album-artist" class="album-artist">{{ weekly_pick.artist }}</div>
-                        </div>
+                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="username" value="Radix">
+                        <input type="hidden" name="album_id" value="{{ weekly_pick.id }}">
                     </div>
 
-                    <div class="album-art-info">
-                        <!-- <div id="album-cover" class="album-art" aria-label="Album Art">Album Art</div> -->
-                        <img id="album-cover" class="album-art" src="{{ album_cover_art }}" alt="Album Cover Art">
+                    <textarea id="review_text" class="review_text" name="review_text" rows="6"></textarea>
+                    <button class="submit" id="submit-button" type="button">Submit</button>
+                </form>
+            </div>
+            <div class="reviews-display hidden">
+                <div class="average-rating">
+                    <div class="average-rating-number">{{ average-rating }}</div>
 
-                        <div class="album-meta">
-                            <ul class="meta-list">
-                                <li>
-                                    <div id="album-year">Year</div>
-                                </li>
-                                <li>
-                                    <div id="album-num-songs"># songs</div>
-                                </li>
-                                <li>
-                                    <div id="album-duration">HH:MM</div>
-                                </li>
-                                <li><strong>Submitted By</strong></li>
-                            </ul>
-                        </div>
+                    <!-- 10 star "slots" -->
+                    <div class="stars" aria-hidden="true">
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
+                        <svg class="star" viewBox="0 0 24 24">
+                            <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                        </svg>
                     </div>
                 </div>
-                <div class="reviews ">
-                    <div class="review-input">
-                        <form class="review-form" action="{{ url_for('add_review') }}" method="post">
-                            <div class="rating">
-                                <input type="number" id="rating-input" class="rating-number" name="rating" min="0"
-                                    max="10" step="0.1" placeholder="#" />
 
-                                <!-- 10 star "slots" -->
-                                <div class="stars" aria-hidden="true">
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                    <svg class="star" viewBox="0 0 24 24">
-                                        <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                    </svg>
-                                </div>
-                                <input type="hidden" name="user_id" value="1">
-                                <input type="hidden" name="username" value="Radix">
-                                <input type="hidden" name="album_id" value="{{ weekly_pick.id }}">
-                            </div>
-
-                            <textarea id="review_text" class="review_text" name="review_text" rows="6"></textarea>
-                            <button class="submit" id="submit-button" type="button">Submit</button>
-                        </form>
-                    </div>
-                    <div class="reviews-display hidden">
-                        <div class="average-rating">
-                            <div class="average-rating-number">{{ average-rating }}</div>
-
-                            <!-- 10 star "slots" -->
-                            <div class="stars" aria-hidden="true">
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                                <svg class="star" viewBox="0 0 24 24">
-                                    <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                                </svg>
-                            </div>
+                <div id="reviews-container">
+                    {% for review in weekly_pick.reviews %}
+                    <div class="review-item">
+                        <div class="review-info">
+                            <div class="review-rating">{{ review.rating }}</div>
+                            <div class="review-user">{{ review.user.username }}</div>
                         </div>
-
-                        <div id="reviews-container">
-                            {% for review in weekly_pick.reviews %}
-                            <div class="review-item">
-                                <div class="review-info">
-                                    <div class="review-rating">{{ review.rating }}</div>
-                                    <div class="review-user">{{ review.user.username }}</div>
-                                </div>
-                                <div class="review-text"> {{ review.review_text }}</div>
-                            </div>
-                            {% endfor %}
-                        </div>
+                        <div class="review-text"> {{ review.review_text }}</div>
                     </div>
+                    {% endfor %}
                 </div>
-            </div>
-            <div class="spotify-test">
-                <textarea id="spotify-url" class="spotify-input" rows="1"></textarea>
-                <button id="spotify-submit" class="spotify-submit" type="button">Submit</button>
             </div>
         </div>
     </div>
-</body>
+    <div class="spotify-test">
+        <textarea id="spotify-url" class="spotify-input" rows="1"></textarea>
+        <button id="spotify-submit" class="spotify-submit" type="button">Submit</button>
+    </div>
+</div>
 
-</html>
+{% endblock %}

@@ -25,9 +25,13 @@ spotifyInst = spotipy.Spotify(auth_manager=auth_manager)
 class Album(db.Model):
     __tablename__ = 'albums'
     id = db.Column(db.Integer, primary_key=True)
+    url_id = db.Column(db.String(100), nullable=False)
     artist = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     year = db.Column(db.Integer, nullable=True)
+    num_songs = db.Column(db.Integer, nullable=True)
+    duration = db.Column(db.String(20), nullable=True)
+    cover_art = db.Column(db.String(100), nullable=True)
     suggestor = db.Column(db.String(100), nullable=False)
     reviewed = db.Column(db.Boolean, default=False, nullable=False)
     reviews = db.relationship("Review", back_populates="album")
