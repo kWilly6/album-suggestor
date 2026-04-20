@@ -29,10 +29,22 @@
 
         <div class="header-title">WAD Tunes</div>
 
-        <div class="user-button-container">
-            <button class="nav-button" id="user-button" type="button" aria-label="User">USER</button>
-        </div>
 
+        <div class="login-container">
+            <div class="users-container">
+                <button class="nav-button login-button" id="login-button" type="button" aria-label="User">LOGIN</button>
+                <div class="login-dropdown-menu" id="dropdownMenu">
+                    <div class="new-user" id="newUserOption">
+                        NEW USER
+                    </div>
+                    <ul class="user-list" id="userList" data-users="{{ users | tojson | safe }}">
+                        {% for user in users %}
+                        <li class="user-item" data-username="{{ user.username }}">{{user.username}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 

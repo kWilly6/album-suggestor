@@ -1,12 +1,148 @@
 const ratingInput = document.getElementById("rating-input");
 const stars = document.querySelectorAll(".stars .star");
 const reviewSubmit = document.getElementById("submit-button");
-const userButton = document.getElementById("user-button");
-const spotifySubmit = document.getElementById("spotify-submit")
+const loginButton = document.getElementById("login-button");
+const spotifySubmit = document.getElementById("spotify-submit");
+const userList = document.getElementById('userList');
 
 // get gradient stops
 const starGradFill = document.querySelector("#starGradient");
 const stops = starGradFill.querySelectorAll("stop");
+
+let users = [];
+let currentUser = null;
+
+function updateLoginMenu() {
+    if (currentUser) {
+        loginButton.textContent = currentUser.username;
+        loginButton.classList.add('logged-in');
+    } else {
+        loginButton.textContent = 'LOGIN';
+        loginButton.classList.remove('logged-in');
+    }
+}
+
+function toggleDropdown() {
+    dropdownMenu.classList.toggle('show');
+}
+
+function closeDropdown() {
+    dropdownMenu.classList.remove('show');
+}
+
+// Add this function to your login.js
+async function addNewUser() {
+    const usernameInput = prompt("Enter new username:");
+    if (!usernameInput || usernameInput.trim() === "") return;
+
+    const username = usernameInput.trim();
+
+    try {
+        const response = await fetch('/add_new_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: username })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Add to the dropdown list immediately            
+            const li = document.createElement('li');
+            li.className = 'user-item';
+            li.textContent = result.username;
+            li.onclick = () => selectUser(result.username);   // reuse your selectUser function
+            userList.prepend(li);  // add to top
+
+            // Automatically select the new user
+            selectUser(result.username);
+        } else {
+            alert(result.error || "Failed to add user");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error connecting to server");
+    }
+}
+
+// Function to select a user
+function selectUser(username) {
+    currentUser = { username: username };
+    // Update button text and style
+    loginButton.textContent = username;
+    loginButton.classList.add('logged-in');
+    // Save to localStorage
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    // Close dropdown
+    dropdownMenu.classList.remove('show');
+}
+
+// Add click listeners to all user items
+function attachUserClickListeners() {
+    const userItems = userList.querySelectorAll('.user-item');
+
+    userItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const username = item.textContent.trim();
+            selectUser(username);
+        });
+    });
+}
+
+// Event Listeners
+loginButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleDropdown();
+});
+
+newUserOption.addEventListener('click', (e) => {
+    e.stopPropagation();
+    addNewUser();
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+    closeDropdown();
+});
+
+dropdownMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// Initialize
+function initLogin() {
+    // Load previously selected user from localStorage
+    const saved = localStorage.getItem('currentUser');
+    if (saved) {
+        try {
+            currentUser = JSON.parse(saved);
+            // Only restore if the user still exists in the current list
+            const userExists = Array.from(userList.children).some(
+                li => li.textContent.trim() === currentUser.username
+            );
+            if (userExists) {
+                loginButton.textContent = currentUser.username;
+                loginButton.classList.add('logged-in');
+            }
+        } catch (e) {
+            console.error("Failed to parse saved user");
+        }
+    }
+
+    // Make sure clicking on existing <li> elements works
+    userList.querySelectorAll('.user-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const username = item.getAttribute('data-username') || item.textContent.trim();
+            selectUser(username);
+        });
+    });
+}
+
+// Run when page loads
+document.addEventListener('DOMContentLoaded', initLogin);
+
 
 function updateStars(value) {
     const rating = Math.max(0, Math.min(10, parseFloat(value) || 0));
@@ -47,7 +183,7 @@ function resetReviewInputPanel() {
     document.querySelector('.review-input').classList.remove('hidden');
 }
 
-userButton.addEventListener("click", resetReviewInputPanel);
+loginButton.addEventListener("click", resetReviewInputPanel);
 
 // initialize
 updateStars(ratingInput.value);

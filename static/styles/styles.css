@@ -20,13 +20,13 @@
 }
 
 /* Debug Borders */
-* {
+/* * {
     outline: 1px solid red !important;
 }
 
 div {
     outline: 1px solid blue !important;
-}
+} */
 
 section,
 nav,
@@ -44,8 +44,10 @@ body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-        Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+    /*font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+        Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;*/
+    font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas,
+        monospace;
     line-height: 1.35;
     min-height: 100%;
     padding: 24px 16px;
@@ -70,7 +72,7 @@ body {
 
 .header-links,
 .header-title,
-.user-button-container {
+.login-container {
     flex: 1;
     display: flex;
     align-items: center;
@@ -90,8 +92,7 @@ body {
 .header-links ul,
 .header-links li {
     display: flex;
-    height: 100%;
-    /* gap: 10px; */
+    gap: 10px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -103,10 +104,9 @@ body {
 .header-links button {
     display: flex;
     align-items: center;
-    height: 100%;
     color: var(--text);
     background: var(--item-bg);
-    /* border-radius: 10px; */
+    border-radius: 10px;
     padding: 8px 12px;
     text-decoration: none;
     font: inherit;
@@ -125,6 +125,146 @@ body {
     background: var(--theme-accent);
     color: var(--nav-button-active-text);
 }
+
+.login-container {
+    justify-content: flex-end;
+}
+
+
+.login-button,
+.user-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.users-container {
+    position: relative;
+    display: inline-block;
+}
+
+.login-button {
+    border: 2px solid #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-button:hover {
+    background: var(--item-bg-hover, #334155);
+    color: var(--text-hover, white);
+}
+
+.login-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: max-content;
+    min-width: 100%;
+    /* max-width: 100%; */
+    background: #1f2937;
+    border: 2px solid #475569;
+    border-radius: 8px;
+    /* margin-top: 8px; */
+    overflow: hidden;
+    /* box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.6); */
+    /* opacity: 0;
+    visibility: hidden; */
+    transform: translateY(-8px);
+    transition: all 0.25s ease;
+    z-index: 1;
+}
+
+.login-dropdown-menu.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* opacity: 1;
+    visibility: visible; */
+    transform: translateY(0);
+}
+
+.new-user {
+    border: 2px solid #475569;
+    color: var(--text);
+    background: var(--theme-accent);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin: 4px 12px;
+    text-decoration: none;
+    font: inherit;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box;
+
+
+    text-align: center;
+
+
+    transition: all 0.2s;
+    width: fit-content;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.new-user:hover {
+    background: #475569;
+    color: #e2e8f0;
+}
+
+/* User List */
+.user-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* max-height: 320px; */
+    /* overflow-y: auto; */
+}
+
+.user-item {
+    padding: 13px 18px;
+    color: var(--text, #e2e8f0);
+    /* font-size: 15.5px; */
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: end;
+    /* Centers the username */
+    align-items: end;
+    justify-content: center;
+    width: 100%;
+}
+
+.user-item:hover {
+    background: #334155;
+}
+
+.user-item.selected {
+    background: #4338ca;
+    color: white;
+}
+
+/* Scrollbar */
+.user-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.user-list::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 10px;
+}
+
+/* When user is logged in */
+.login-button.logged-in {
+    background: var(--theme-accent, #4f46e5);
+    color: var(--nav-button-active-text, white);
+    border: 2px solid var(--accent-border, #818cf8);
+}
+
 
 /* Content shell */
 .content {

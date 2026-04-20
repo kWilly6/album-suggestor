@@ -1,6 +1,6 @@
 # app.py
 
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import random
 import numpy as np
@@ -82,12 +82,13 @@ def get_weekly_album():
 def home():
     all_albums = Album.query.all()
     all_users = User.query.all()
+    users_list = [{"id": user.id, "username": user.username} for user in all_users]
     album_of_the_week = get_weekly_album()
 
     ratings = [review.rating for review in album_of_the_week.reviews]
     average_rating = np.average(ratings)
 
-    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=all_users, average=average_rating)
+    return render_template("home.html", albums=all_albums, weekly_pick=album_of_the_week, users=users_list, average=average_rating)
 
 
 @app.route("/admin")
@@ -124,15 +125,30 @@ def new_user_page():
 
 @app.route("/add_new_user", methods=["POST"])
 def add_new_user():
-    if request.method == "POST":
-        username = request.form["username"]
-        existing_user = User.query.filter(User.username == username).first()
-        if existing_user is None:
-            new_user = User(username=username)
-            db.session.add(new_user)
-            db.session.commit()
+    data = request.get_json()
+    username = data.get("username", "").strip()
 
-        return redirect(url_for("show_user_profile", username=username))
+    if not username:
+        return jsonify({"success": False, "error": "Username is required"}), 400
+
+    # Check if user already exists
+    existing_user = User.query.filter_by(username=username).first()
+    
+    if existing_user is None:
+        new_user = User(username=username)
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({
+            "success": True, 
+            "username": username,
+            "message": "User added successfully"
+        })
+    else:
+        return jsonify({
+            "success": True, 
+            "username": username,
+            "message": "User already exists"
+        })
 
 @app.route("/add_review", methods=["POST"])
 def add_review():
