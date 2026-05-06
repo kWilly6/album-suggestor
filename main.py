@@ -155,16 +155,21 @@ def add_review():
     if request.method == "POST":
         rating = float(request.form["rating"])
         review_text = request.form["review_text"]
-        user_id = request.form["user_id"]
         username = request.form["username"]
+        print(f"USERNAME: ", {username})
         album_id = request.form["album_id"]
-        new_review = Review(rating=rating,review_text=review_text,user_id=user_id,album_id=album_id)
-        try:
-            db.session.add(new_review)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            print("ERROR:", e)
+        active_user = User.query.filter_by(username=username).first()
+        if(active_user):
+            user_id = active_user.id
+            new_review = Review(rating=rating,review_text=review_text,user_id=user_id,album_id=album_id)
+            try:
+                db.session.add(new_review)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                print("ERROR:", e)
+        else:
+            print("ERROR: User not found")
 
         return redirect(url_for("home"))
 

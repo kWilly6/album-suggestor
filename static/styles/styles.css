@@ -32,7 +32,7 @@ section,
 nav,
 footer,
 header {
-    outline: 2px solid green !important;
+    /* outline: 2px solid green !important; */
 }
 
 html,
@@ -144,9 +144,6 @@ body {
 }
 
 .login-button {
-    border: 2px solid #475569;
-    font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -180,8 +177,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* opacity: 1;
-    visibility: visible; */
     transform: translateY(0);
 }
 
@@ -480,7 +475,8 @@ body {
     width: 3rem;
     /* size */
     height: 3rem;
-    fill: var(--item-bg);
+    /* fill: var(--item-bg); */
+    fill: var(--bg);
     /* empty color */
 }
 

@@ -45,7 +45,7 @@
         </div>
         <div class="reviews ">
             <div class="review-input">
-                <form class="review-form" action="{{ url_for('add_review') }}" method="post">
+                <form class="review-form" id="review-form" action="{{ url_for('add_review') }}" method="post">
                     <div class="rating">
                         <input type="number" id="rating-input" class="rating-number" name="rating" min="0" max="10"
                             step="0.1" placeholder="#" />
@@ -83,13 +83,11 @@
                                 <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
                             </svg>
                         </div>
-                        <input type="hidden" name="user_id" value="1">
-                        <input type="hidden" name="username" value="Radix">
-                        <input type="hidden" name="album_id" value="{{ weekly_pick.id }}">
                     </div>
-
+                    <input type="hidden" name="username" id="username" value="USER">
+                    <input type="hidden" name="album_id" value="{{ weekly_pick.id }}">
                     <textarea id="review_text" class="review_text" name="review_text" rows="6"></textarea>
-                    <button class="submit" id="submit-button" type="button">Submit</button>
+                    <button class="submit" id="submit-button" type="submit">Submit</button>
                 </form>
             </div>
             <div class="reviews-display hidden">

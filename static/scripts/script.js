@@ -1,13 +1,11 @@
-const ratingInput = document.getElementById("rating-input");
-const stars = document.querySelectorAll(".stars .star");
-const reviewSubmit = document.getElementById("submit-button");
-const loginButton = document.getElementById("login-button");
 const spotifySubmit = document.getElementById("spotify-submit");
-const userList = document.getElementById('userList');
 
-// get gradient stops
-const starGradFill = document.querySelector("#starGradient");
-const stops = starGradFill.querySelectorAll("stop");
+// ──────────────────────────────
+// USER LOGIC
+// ──────────────────────────────
+const loginButton = document.getElementById("login-button");
+const userList = document.getElementById('userList');
+const userID_input = document.getElementById('username');
 
 let users = [];
 let currentUser = null;
@@ -30,7 +28,6 @@ function closeDropdown() {
     dropdownMenu.classList.remove('show');
 }
 
-// Add this function to your login.js
 async function addNewUser() {
     const usernameInput = prompt("Enter new username:");
     if (!usernameInput || usernameInput.trim() === "") return;
@@ -67,7 +64,6 @@ async function addNewUser() {
     }
 }
 
-// Function to select a user
 function selectUser(username) {
     currentUser = { username: username };
     // Update button text and style
@@ -75,11 +71,12 @@ function selectUser(username) {
     loginButton.classList.add('logged-in');
     // Save to localStorage
     localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    userID_input.value = currentUser.username;
+    console.log('User set');
     // Close dropdown
     dropdownMenu.classList.remove('show');
 }
 
-// Add click listeners to all user items
 function attachUserClickListeners() {
     const userItems = userList.querySelectorAll('.user-item');
 
@@ -92,11 +89,14 @@ function attachUserClickListeners() {
 }
 
 // Event Listeners
+
+//Extend Dropdown
 loginButton.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleDropdown();
 });
 
+//Add New User Button
 newUserOption.addEventListener('click', (e) => {
     e.stopPropagation();
     addNewUser();
@@ -107,17 +107,18 @@ document.addEventListener('click', () => {
     closeDropdown();
 });
 
+//Close dropdown
 dropdownMenu.addEventListener('click', (e) => {
     e.stopPropagation();
 });
 
-// Initialize
+// Page load user if any
 function initLogin() {
     // Load previously selected user from localStorage
-    const saved = localStorage.getItem('currentUser');
-    if (saved) {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
         try {
-            currentUser = JSON.parse(saved);
+            currentUser = JSON.parse(savedUser);
             // Only restore if the user still exists in the current list
             const userExists = Array.from(userList.children).some(
                 li => li.textContent.trim() === currentUser.username
@@ -125,10 +126,25 @@ function initLogin() {
             if (userExists) {
                 loginButton.textContent = currentUser.username;
                 loginButton.classList.add('logged-in');
+                userID_input.value = currentUser.username
+                console.log('User set');
             }
         } catch (e) {
             console.error("Failed to parse saved user");
+            loginButton.textContent = 'USER';
+            loginButton.classList.remove('logged-in');
+            userID_input.value = 'USER';
+            currentUser.username = 'USER'
+            console.log('User cleared Exception');
         }
+    }
+    else {
+        console.error("Failed to parse saved user");
+        loginButton.textContent = 'USER';
+        loginButton.classList.remove('logged-in');
+        userID_input.value = 'USER';
+        currentUser.username = 'USER'
+        console.log('User cleared Else');
     }
 
     // Make sure clicking on existing <li> elements works
@@ -143,6 +159,17 @@ function initLogin() {
 // Run when page loads
 document.addEventListener('DOMContentLoaded', initLogin);
 
+
+// ──────────────────────────────
+// RATING SUBMISSION LOGIC
+// ──────────────────────────────
+const ratingInput = document.getElementById("rating-input");
+const stars = document.querySelectorAll(".stars .star");
+const reviewSubmit = document.getElementById("submit-button");
+const reviewForm = document.getElementById("review-form");
+const reviewTextArea = document.getElementById("review_text");
+const starGradFill = document.querySelector("#starGradient");
+const stops = starGradFill.querySelectorAll("stop");
 
 function updateStars(value) {
     const rating = Math.max(0, Math.min(10, parseFloat(value) || 0));
@@ -165,25 +192,74 @@ function updateStars(value) {
         }
     });
 }
-
 // hook to input
 ratingInput.addEventListener("input", (e) => updateStars(e.target.value));
 
-function submitRating() {
-    //check user
+function submitReview(event) {
+
+    console.log('📤 Submit event triggered - starting validation...');
+    let isValid = true;
+    let errors = [];
+
+    // Clear previous errors
+    document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+    // Validate Rating
+    const rating = parseFloat(ratingInput.value);
+    if (!ratingInput.value || isNaN(rating) || rating < 0 || rating > 10) {
+        isValid = false;
+        errors.push("Rating must be between 0.0 and 10.0");
+        ratingInput.classList.add('error');
+    } else {
+        ratingInput.classList.remove('error');
+    }
+
+    // Validate Review Text
+    if (!reviewTextArea.value.trim()) {
+        isValid = false;
+        errors.push("Please write a review");
+        reviewTextArea.classList.add('error');
+    } else {
+        reviewTextArea.classList.remove('error');
+    }
+
+    if (!isValid) {
+        event.preventDefault();           // Stop form from submitting
+        showErrors(errors);
+        return false;
+    }
+
+    // Optional: Disable button to prevent double submission
+    const submitBtn = document.getElementById('submit-button');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
     //logic to add rating to database
     document.querySelector('.review-input').classList.add('hidden');
     document.querySelector('.reviews-display').classList.remove('hidden');
 }
 
-reviewSubmit.addEventListener("click", submitRating);
+reviewForm.addEventListener("submit", submitReview);
 
-function resetReviewInputPanel() {
-    document.querySelector('.reviews-display').classList.add('hidden');
-    document.querySelector('.review-input').classList.remove('hidden');
+function showErrors(errors) {
+    const container = document.querySelector('.rating').parentElement;
+    errors.forEach(error => {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.style.color = 'red';
+        errorDiv.style.fontSize = '0.9em';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = error;
+        container.appendChild(errorDiv);
+    });
 }
 
-loginButton.addEventListener("click", resetReviewInputPanel);
+// function resetReviewInputPanel() {
+//     document.querySelector('.reviews-display').classList.add('hidden');
+//     document.querySelector('.review-input').classList.remove('hidden');
+// }
+
+// loginButton.addEventListener("click", resetReviewInputPanel);
 
 // initialize
 updateStars(ratingInput.value);
@@ -214,4 +290,4 @@ function updateUI(data) {
     document.getElementById('album-duration').innerText = data.duration;
 }
 
-spotifySubmit.addEventListener("click", fetchSpotifyData)
+spotifySubmit.addEventListener("click", fetchSpotifyData);
